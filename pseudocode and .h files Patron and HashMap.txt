@@ -1,0 +1,145 @@
+
+header files and pseudocode for patron and hashmap
+
+//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
+
+#ifindef PATRON_H
+#define PATRON_H
+
+class Patron {
+
+private:
+   
+   String customerID;                           // the ID number for the Patron
+   String firstName;                                     // Patron's first name
+   String lastName;                                        // Patrons last name
+
+public:
+
+   Patron(int, String, String);
+
+   String getID();                                     // returns the ID number
+   String getFirstName();                             // returns the first name
+   String getLastName();                               // returns the last name
+
+private:
+
+   bool setID(String);                // checks the ID number and sets if valid
+   bool setFirstName(String);        // checks the first name and sets if valid
+   bool setLastName(String);          // checks the last name and sets if valid
+
+};
+
+#endif
+
+
+//----------------------------------------------------------------------------
+
+
+
+//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
+
+#ifndef HASHMAP.H
+#define HASHMAP.H
+
+#include "patron.h"
+
+using namespace std;
+
+class HashMap {
+   
+private:
+   
+   Patron patrons[];                       // an array of Nodes containing Patron
+   int buckets;                                     // size of patrons array
+
+public:
+
+   HashMap();                                       // creates an empty HashMap
+
+   void readFile(ifstream&);                         // reads patrons from file
+
+   void addPatron(Patron);                  // adds a new Patron to the HashMap
+   void deletePatron(Patron);              // deletes a Patron from the HashMap
+
+   Patron getPatron(int id);    // returns the Patron associated with passed id
+
+// should we include a way to get every patron? 
+// like returning an array or something
+   
+private:
+
+   int hashify(String);               // creates hash code for passed id number
+
+};
+
+#endif
+//----------------------------------------------------------------------------
+
+HashMap::HashMap() {
+
+   // set buckets to a prime number (twice size of dataset if possible)
+   // initialize array
+
+}
+
+// reads contents of patron file
+void readFile(ifstream& in) {
+
+   // for each line of file
+   //    get id, last, first name
+   //    addPatron(id, last, first)
+
+}
+
+// gets the hash value (index) from the patron's id number
+// adds the patron to the array at the hash value (index)
+// if it fails, hash again?
+void addPatron(String first, String last, int id) {
+
+   // int index = hashify(aPatron.getID())
+   // set patrons[index] = aPatron
+
+}
+
+// deletes record of patron
+// should do the opposite of addPatron
+void deletePatron(Patron aPatron) {
+
+   // index = hashify(aPatron.getID())
+   // 
+   // get contents of patrons[index].data
+   // if match
+   //    delete patrons[index]
+   // 
+   // set patrons[index] = null
+}
+
+Patron getPatron(int id) {
+
+   // index = hashify(id)
+   // 
+   // get contents of patrons[index].data
+   //    if id matches, found
+   //    if id not matches, go to patrons[index].next
+   //    if null throw exception (not found case)
+   // 
+   // return found patron
+
+   return Patron;
+
+}
+
+// recieves a key 
+// returns an available index to assign the key to
+int hashify(String key) {
+
+   // return id % buckets
+
+}
+
+//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
+
