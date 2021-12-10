@@ -4,14 +4,14 @@
 #define HASHMAP_
 
 template <class K, class V>
-struct HashNode {
+struct Bucket {
 
    K key;
    V value;
 
-   HashNode(K key, V value) {
-      this->key = key;
-      this->value = value;
+   Bucket(K key, V value) {
+      this->key = &key;
+      this->value = &value;
    }
 };
 
@@ -20,14 +20,14 @@ class HashMap {
 
 private:
 
-   // array holding all entries
-   HashNode<K, V>** table;
-
    // size of table & number of potential entries
    int num_buckets;
 
    // takes in key and returns hash value
-   int hashAlg(K);
+   int hashify(K);
+
+   // array holding all entries
+   Bucket<K, V>** table;
 
 public:
 
@@ -37,7 +37,7 @@ public:
    // Destructor for HashMap
    ~HashMap();
 
-   V& operator[](K);
+   //V& operator[](K);
 
    // adds a value to the hashmap
    bool add(K, V);
@@ -55,7 +55,7 @@ template <typename K, typename V>
 HashMap <K, V>::HashMap() {
 
    num_buckets = 97;
-   table = new HashNode<K, V>[num_buckets];
+   table = new Bucket<K, V>[num_buckets];
 
    // sets whole array to nullptr
    for (int i = 0; i < num_buckets; i++) {
@@ -68,7 +68,7 @@ HashMap <K, V>::~HashMap() {
 
    for (int i = 0; i < num_buckets; i++) {
 
-      HashNode<K, V>* entry = table[i];
+      Bucket<K, V>* entry = table[i];
 
       delete entry;
 
@@ -79,26 +79,26 @@ HashMap <K, V>::~HashMap() {
 }
 
 template <typename K, typename V>
-int HashMap <K, V>::hashAlg(K key) {
+int HashMap <K, V>::hashify(K key) {
 
    return std::hash<int>() (key) % num_buckets;
 }
-
+/*
 template <typename K, typename V>
 V& HashMap <K, V>::operator[](K) {
-   return *table[hashAlg(K)];
+   return *table[hashify(K)];
 }
-
+*/
 template <typename K, typename V>
 bool HashMap <K, V>::add(K key, V val) {
 
-   int i = hashAlg(key);
+   int i = hashify(key);
    //bool set = false;
 
    while (i > -1 && i < num_buckets) {
       
       if (table[i] == nullptr) {
-         table[i] = new HashNode<K, V>(key, val);
+         table[i] = new Bucket<K, V>(key, val);
          return true;
       }
       // if duplicate value return false
@@ -114,7 +114,7 @@ bool HashMap <K, V>::add(K key, V val) {
 template <typename K, typename V>
 V HashMap <K, V>::get(K key) {
 
-   int i = hashAlg(key);
+   int i = hashify(key);
 
    if (table[i]->key == key) {
       return table[i]->value;
